@@ -1,6 +1,5 @@
 const path = require('path');
 const fs = require('fs');
-const uuid = require('uuid'); 
 
 const express = require('express');
 const PORT = 3001;
@@ -12,24 +11,23 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
+// Get requests for the public html's 
 app.get('/', (req, res) => {
-
     res.sendFile(path.join(__dirname, './public/index.html'));
-    console.log('here');
 });
 
 app.get('/notes', (req, res) => {
     res.sendFile(path.join(__dirname, './public/notes.html'));
-    console.log('there');
 });
 
+// Get the notes from the post request 
 app.get('/api/notes', (req, res) => {
     console.log(db)
     res.json(db); 
 })
 
+
 app.post('/api/notes', (req, res) => {
-    console.log("everywhere");
     const { title, text } = req.body;
 
     if (title && text) {
@@ -38,8 +36,7 @@ app.post('/api/notes', (req, res) => {
             text
         };
         db.push(newNote);
-        // const noteString = JSON.stringify(newNote)
-        
+
         const response = {
             status: 'success',
             body: newNote
